@@ -50,3 +50,18 @@ make test
 # Clean build artifacts
 make clean
 ```
+
+## Peformance
+
+```
+spec: MacBook M2 8GB
+
+# Run stress test
+make stress-test
+
+...
+
+================================================
+✗ Found 8596 line(s) with duplicate classes
+        1.10 real         0.65 user         0.68 sys
+```
