@@ -5,6 +5,9 @@ import (
     "sync"
 )
 
+// Global variable for worker count (for testing)
+var workerCount int = 0
+
 
 // Find duplicate classes in the given directory
 func findDuplicateClasses(searchDir string) []Duplicate {
@@ -54,9 +57,24 @@ func processFiles(searchDir string) []Duplicate {
 
 // Get optimal worker count based on CPU cores
 func getOptimalWorkerCount() int {
+    // Use global workerCount if set (for testing)
+    if workerCount > 0 {
+        return workerCount
+    }
+    
     maxWorkers := runtime.NumCPU()
     if maxWorkers > 8 {
         maxWorkers = 8 // Prevent excessive goroutine overhead
     }
     return maxWorkers
+}
+
+// Set worker count (for testing)
+func setWorkerCount(count int) {
+    workerCount = count
+}
+
+// Reset worker count to auto-detect
+func resetWorkerCount() {
+    workerCount = 0
 }
