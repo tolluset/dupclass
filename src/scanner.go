@@ -6,6 +6,13 @@ import (
     "sync"
 )
 
+var gitignorePatterns []string
+
+// Initialize gitignore patterns (call once at start)
+func initGitignore(rootDir string) {
+    gitignorePatterns = loadGitignorePatterns(rootDir)
+}
+
 // Recursively scan directory for React files
 func scanDirectory(dir string, fileChan chan<- string) {
     entries, err := os.ReadDir(dir)
@@ -15,6 +22,12 @@ func scanDirectory(dir string, fileChan chan<- string) {
 
     for _, entry := range entries {
         path := filepath.Join(dir, entry.Name())
+        
+        // Check gitignore patterns
+        if shouldIgnore(path, gitignorePatterns) {
+            continue
+        }
+        
         if entry.IsDir() {
             scanDirectory(path, fileChan)
         } else {

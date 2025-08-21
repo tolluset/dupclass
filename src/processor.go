@@ -13,6 +13,9 @@ func findDuplicateClasses(searchDir string) []Duplicate {
 
 // Process files in directory and return duplicates
 func processFiles(searchDir string) []Duplicate {
+    // Initialize gitignore patterns
+    initGitignore(searchDir)
+    
     maxWorkers := getOptimalWorkerCount()
 
     fileChan := make(chan string, 100)
